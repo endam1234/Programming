@@ -63,4 +63,23 @@ public class Pattern
   
         return false; 
     } 
-}
+
+
+public static void main(String[] args) 
+{ 
+    Pattern tree = new Pattern(); 
+    tree.root = new BinaryNode(1); 
+    tree.root.left = new BinaryNode(2); 
+    tree.root.right = new BinaryNode(3); 
+    tree.root.left.left = new BinaryNode(4); 
+    tree.root.left.right = new BinaryNode(5); 
+    tree.root.right.left = new BinaryNode(6); 
+    tree.root.right.right = new BinaryNode(7); 
+
+    System.out.println("Lowest Common Ancestor(2, 4): " + tree.findLCA(2,4)); 
+    System.out.println("Lowest Common Ancestor(3, 4): " + tree.findLCA(3,4)); 
+    System.out.println("Lowest Common Ancestor(4, 5): " + tree.findLCA(4,5)); 
+    System.out.println("Lowest Common Ancestor(4, 6): " + tree.findLCA(4,6)); 
+  
+} 
+} 
