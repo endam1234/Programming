@@ -41,6 +41,26 @@ public class LowestCommonAncestorTest {
 		assertEquals("Find ancestors of non-existent nodes in a populated tree: ", null, tree.findLCA(32, 76));
 	}	
 	
+	@Test
+
+	public void testCommonAncestor(){
+
+		LCA tree = new LCA();
+		tree.root = new BinaryNode(1);
+		tree.root.left = new BinaryNode(2);
+		tree.root.right = new BinaryNode(3);
+		tree.root.left.left = new BinaryNode(4);
+		tree.root.left.right = new BinaryNode(5);
+		tree.root.right.left = new BinaryNode(6);
+		tree.root.right.right = new BinaryNode(7);
+
+		assertEquals("LCA of 4 and 5: ", 2, tree.findLCA(4, 5).data);
+		assertEquals("LCA of 6 and 7: ", 3, tree.findLCA(6, 7).data);
+		assertEquals("LCA of 2 and 3: ", 1, tree.findLCA(2, 3).data);
+		assertEquals("LCA of 4 and 7: ", 1, tree.findLCA(4, 7).data);
+	}
+
+	
 
 }
 
