@@ -87,6 +87,102 @@ public class DAG {
 	{ 
 		return adj[v]; 
 	}
-
 	
+
+	public int findLCA(int v, int w){
+		findCycle(0);
+		if(hasCycle)
+		{
+			return -1;
+		}
+
+		//Reverse the dag, allows easier traversal
+		DAG backwards = reverse();
+
+		//Locate the two points in the graph
+		ArrayList<Integer> vPath = backwards.BFS(v);
+		ArrayList<Integer> wPath = backwards.BFS(w);
+		ArrayList<Integer> commonAncestors = new ArrayList<Integer>();
+
+		boolean found = false;
+
+		//cycle through the BFS paths, adding all common ancestors to the arrayList
+		//return the first one found, as it is the closest to the nodes.
+
+		for(int i = 0; i<vPath.size(); i++){
+				for(int t = 0; t<wPath.size(); t++){		
+					if(vPath.get(i)==wPath.get(t)){
+						commonAncestors.add(vPath.get(i));	
+						found = true;
+					}
+			}
+		}
+		//return -1 in any case where no lca is found (empty dag etc)
+		if(found)
+			return commonAncestors.get(0);
+		else
+			return -1;
+	}
+
+	//traverse the graph backwards as the lca comes before the two nodes
+    public DAG reverse() {
+        DAG reverse = new DAG(V); 
+        for (int v = 0; v < V; v++) {
+            for (int w : adj(v)) {
+                reverse.addEdge(w, v); //reverse the direction of the edges
+            }
+        }
+        return reverse;
+    }
+
+   
+	public ArrayList<Integer> BFS(int s)
+    {
+        // Mark all the vertices as not visited
+        boolean visited[] = new boolean[V];
+
+        LinkedList<Integer> queue = new LinkedList<Integer>();
+        ArrayList<Integer> order= new ArrayList<Integer>();
+        visited[s]=true;
+        queue.add(s);
+
+        while (queue.size() != 0)
+        {
+            // Dequeue a vertex from queue and print it
+            s = queue.poll();           
+            order.add(s);
+
+            Iterator<Integer> i = adj[s].listIterator();
+            while (i.hasNext())
+            {
+                int n = i.next();
+                if (!visited[n])
+                {
+                    visited[n] = true;
+                    queue.add(n);
+                }
+            }
+        }
+        return order;
+    }
+
+	public boolean hasCycle() {
+        return hasCycle;
+    }
+
+	 public void findCycle(int v) {
+	        marked[v] = true;
+	        stack[v] = true;
+	        for (int w : adj(v)) {
+	            if(!marked[w]) {
+	                findCycle(w);
+	            } 
+	            else if (stack[w])
+	            {
+	                hasCycle = true;
+	                return;
+	            }
+	        }
+	        stack[v] = false;
+	    }
 }
