@@ -110,5 +110,67 @@ public class DAGTest {
 		assertEquals("Finding LCA for 6 and 8", 6, lca.findLCA(6, 8));
 		assertEquals("Special case where both parameters are same vertex", 2, lca.findLCA(2,2));
 	}
+	@Test
+	public void testLCAForNoCommonAncestors(){
+		DAG lcaB = new DAG(11);
+		//-----1----5----
 
+		//---0-|---/-----
+
+		//-----2--3---4--
+
+		lcaB.addEdge(0, 1);
+		lcaB.addEdge(0, 2);
+		lcaB.addEdge(1, 2);
+		lcaB.addEdge(2, 3);
+		lcaB.addEdge(3, 4);
+		lcaB.addEdge(1, 5);
+		lcaB.addEdge(3, 5);
+
+		assertEquals("Finding LCA when there is no LCA", 0, lcaB.findLCA(3, 1));
+		assertEquals("", 2, lcaB.findLCA(3, 2));
+		assertEquals("", 3, lcaB.findLCA(4, 5));
+
+		//Check for no common ancestors
+		assertEquals("Finding LCA when one node doesnt exist", -1, lcaB.findLCA(7, 3));
+	}
+
+	@Test
+
+	public void testLCAForNonDAG(){
+		DAG lcaC = new DAG(11);
+
+		//---0
+
+		//--|-\
+
+		//---\-\
+
+		//----2--3
+
+
+
+		//0 - 2 - 3 make a cycle
+
+		lcaC.addEdge(0, 1);
+		lcaC.addEdge(0, 2);
+		lcaC.addEdge(2, 3);
+		lcaC.addEdge(3, 0);
+		lcaC.addEdge(3, 4);
+
+		//Should return -1 if graph is not a DAG
+
+		assertEquals("", -1, lcaC.findLCA(2, 3));
+		assertEquals("", -1, lcaC.findLCA(3, 4));
+		assertEquals("", -1, lcaC.findLCA(1, 2));
+		assertEquals("", -1, lcaC.findLCA(0, 3));
+		assertEquals("", -1, lcaC.findLCA(1, 3));
+	}
+	
+	@Test
+
+	public void testLCAforEmpty() {
+		DAG lca = new DAG(10);
+		assertEquals("Testing LCA is -1", -1, lca.findLCA(1, 2));
+	}
 }
